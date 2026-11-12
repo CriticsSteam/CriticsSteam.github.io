@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://criticssteam.github.io/sitemap.xml

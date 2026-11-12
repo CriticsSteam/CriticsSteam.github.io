@@ -96,13 +96,15 @@ iframe.emb, .video-frame{width:100%;aspect-ratio:16/9;border:0;border-radius:6px
   will-change:transform;transform:rotateX(0) rotateY(0)}
 .hero-layer{position:absolute;inset:0;pointer-events:none;will-change:transform}
 .hero-bg{background:
-  radial-gradient(900px 520px at 78% 40%,#13314c 0%,transparent 62%),
+  radial-gradient(720px 480px at 78% 36%,#1a3a28 0%,transparent 58%),
+  radial-gradient(900px 520px at 82% 40%,#13314c 0%,transparent 62%),
   radial-gradient(700px 420px at 10% 80%,#0b1c2c 0%,transparent 70%),
-  linear-gradient(180deg,#070a10 0%,#0a0c10 100%);
-  box-shadow:inset 0 -80px 60px #05070c}
+  linear-gradient(180deg,#070a10 0%,#0a0c10 100%)}
 .hero-bg:after{content:"";position:absolute;inset:0;opacity:.18;mix-blend-mode:overlay;background-image:
   repeating-linear-gradient(0deg,transparent 0 2px,#00000022 2px 3px),
   repeating-linear-gradient(90deg,transparent 0 3px,#ffffff05 3px 4px)}
+.v3hero:after{content:"";position:absolute;left:0;right:0;bottom:0;height:110px;z-index:4;
+  background:linear-gradient(to bottom,transparent 0%,#05070c 100%);pointer-events:none}
 .hero-fog .fog{position:absolute;border-radius:50%;filter:blur(64px);opacity:.36;
   animation:fogdrift 26s ease-in-out infinite;mix-blend-mode:screen}
 .hero-fog .f1{width:62%;height:58%;left:-14%;top:18%;background:#1a4e72}
@@ -112,44 +114,78 @@ iframe.emb, .video-frame{width:100%;aspect-ratio:16/9;border:0;border-radius:6px
   0%,100%{transform:translate(-6%,4%) scale(1)}
   50%{transform:translate(8%,-5%) scale(1.14)}
 }
-.hero-parts{width:100%;height:100%;display:block}
-.v3hero .hw{position:relative;z-index:3;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);
-  gap:16px;align-items:start;max-width:1320px;margin:0 auto;
+.hero-parts{width:100%;height:100%;display:block;z-index:4}
+.v3hero .hw{position:relative;z-index:3;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);
+  gap:56px;align-items:start;max-width:1320px;margin:0 auto;
   padding:18px 28px 0;pointer-events:none}
-.v3hero .hl{position:relative;z-index:5;align-self:start;padding:2px 12px 28px 0;pointer-events:auto;will-change:transform}
+.v3hero .hl{position:relative;z-index:5;align-self:start;padding:2px 0 36px 0;pointer-events:auto;will-change:transform}
 .v3hero .hl h1{font-size:clamp(40px,5.4vw,80px);margin:10px 0 16px;text-shadow:0 10px 40px #000a,0 0 40px #05070ccc;max-width:16ch}
 .v3hero .lede{max-width:500px;position:relative}
-.hstage-right{position:relative;z-index:2;display:flex;align-items:flex-end;justify-content:flex-start;
-  gap:4px;min-height:0;overflow:visible}
-.hero-logo{position:relative;z-index:1;flex:0 0 auto;width:min(50%,400px);margin:0;
-  pointer-events:none;will-change:transform}
-.hero-logo picture,.hero-logo img{display:block;width:100%;height:auto;object-fit:contain;object-position:bottom center}
-.hero-logo img{filter:drop-shadow(0 10px 24px #0008)}
-.v3hero .hchar{position:relative;z-index:2;flex:1 1 auto;width:auto;max-width:540px;margin:0 0 0 auto;
-  pointer-events:none;will-change:transform}
-.v3hero .hchar img{position:relative;z-index:2;width:100%;height:auto;max-height:540px;
+.hstage-right{position:relative;z-index:2;display:block;min-height:0;overflow:visible;align-self:start}
+.hero-aura{position:absolute;z-index:0;right:-4%;top:2%;width:86%;height:96%;
+  background:radial-gradient(ellipse at 62% 38%,rgba(232,197,106,.38) 0%,transparent 56%),
+    radial-gradient(ellipse at 72% 48%,rgba(102,192,244,.42) 0%,transparent 62%);
+  filter:blur(42px);mix-blend-mode:screen;pointer-events:none;
+  animation:aurapulse 7s ease-in-out infinite}
+@keyframes aurapulse{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.06)}}
+.hero-rays{position:absolute;z-index:0;right:-18%;top:-28%;width:120%;height:160%;
+  background:repeating-conic-gradient(from 8deg at 62% 38%,
+    transparent 0 7deg,rgba(232,197,106,.08) 8deg,transparent 11deg,
+    rgba(102,192,244,.07) 12deg,transparent 15deg);
+  -webkit-mask-image:radial-gradient(ellipse at 62% 38%,#000 0%,transparent 62%);
+  mask-image:radial-gradient(ellipse at 62% 38%,#000 0%,transparent 62%);
+  mix-blend-mode:screen;opacity:.8;pointer-events:none;
+  animation:rayspin 56s linear infinite;transform-origin:62% 38%}
+@keyframes rayspin{to{transform:rotate(360deg)}}
+.hero-logo{position:absolute;z-index:1;left:10%;top:6%;width:clamp(132px,24%,190px);
+  margin:0;pointer-events:none;will-change:transform;overflow:visible}
+.hero-logo picture,.hero-logo img{display:block;width:100%;height:auto;object-fit:contain;object-position:center}
+.hero-logo img{opacity:.78;filter:drop-shadow(0 0 16px #66c0f455) drop-shadow(0 0 22px #e8c56a44) drop-shadow(0 8px 16px #0006)}
+.hero-logo-sheen{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(115deg,transparent 36%,rgba(255,236,190,.45) 50%,transparent 64%);
+  background-size:220% 100%;background-position:-120% 0;mix-blend-mode:soft-light;
+  -webkit-mask-image:url("img/hero-logo.png");mask-image:url("img/hero-logo.png");
+  -webkit-mask-size:100% 100%;mask-size:100% 100%;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+  animation:logosweep 8s ease-in-out 1.8s infinite}
+@keyframes logosweep{
+  0%,70%,100%{background-position:-120% 0}
+  85%{background-position:160% 0}
+}
+.v3hero .hchar{position:relative;z-index:3;display:block;width:min(80%,600px);max-width:600px;
+  margin:0 0 0 auto;pointer-events:none;will-change:transform}
+.v3hero .hchar img{position:relative;z-index:2;width:100%;height:auto;max-height:min(64vh,620px);
   object-fit:contain;object-position:bottom right;display:block;user-select:none;
-  filter:drop-shadow(0 0 28px #66c0f455) drop-shadow(16px 0 40px #66c0f466) drop-shadow(0 28px 48px #000c)}
-.hero-rim{position:absolute;right:8%;top:16%;width:54%;height:70%;z-index:1;
-  background:radial-gradient(ellipse at 70% 40%,#66c0f4cc 0%,#66c0f433 32%,transparent 70%);
-  filter:blur(28px);opacity:.7;mix-blend-mode:screen;pointer-events:none;
-  animation:rimpulse 6.5s ease-in-out infinite}
-@keyframes rimpulse{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:.85;transform:scale(1.05)}}
+  filter:drop-shadow(0 0 28px #66c0f455) drop-shadow(18px 0 40px #e8c56a33) drop-shadow(0 28px 48px #000c);
+  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 74%,rgba(0,0,0,.7) 86%,transparent 100%);
+  mask-image:linear-gradient(to bottom,#000 0%,#000 74%,rgba(0,0,0,.7) 86%,transparent 100%)}
+.hero-rim{position:absolute;right:6%;top:8%;width:70%;height:78%;z-index:1;
+  background:radial-gradient(ellipse at 70% 38%,#e8c56a55 0%,#66c0f466 36%,transparent 70%);
+  filter:blur(26px);opacity:.85;mix-blend-mode:screen;pointer-events:none;
+  animation:rimpulse 5.5s ease-in-out infinite}
+@keyframes rimpulse{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:.95;transform:scale(1.06)}}
 @media(max-width:800px){
   .v3hero{min-height:0}
-  .v3hero .hw{grid-template-columns:1fr;padding:10px 18px 0;gap:8px}
-  .hstage-right{position:relative;min-height:0;height:auto;padding:4px 0 0;align-items:flex-end}
-  .hero-logo{width:42%;max-width:168px;flex:0 0 auto}
-  .v3hero .hchar{position:relative;width:auto;flex:1 1 auto;max-width:none;margin:0;inset:auto}
-  .v3hero .hchar img{max-height:230px;width:100%;margin:0;object-position:bottom right}
-  .v3hero .hl{padding:2px 0 16px}
+  .v3hero .hw{grid-template-columns:1fr;padding:10px 18px 0;gap:4px}
+  .hstage-right{position:relative;min-height:0;height:auto;padding:6px 0 0}
+  .hero-logo{left:20%;top:4%;width:clamp(84px,26%,120px);max-width:120px}
+  .v3hero .hchar{position:relative;width:min(92%,520px);max-width:none;margin:0 0 0 auto}
+  .v3hero .hchar img{max-height:min(52vw,380px);width:100%;margin:0;object-position:bottom right}
+  .v3hero .hl{padding:2px 0 14px}
   .v3hero .hl h1{font-size:clamp(34px,10.2vw,52px);margin:6px 0 8px;max-width:none}
   .v3hero .lede{font-size:15px;margin:0}
   .v3hero .cta{margin-top:12px}
   .hero-fog .fog{opacity:.28}
+  .hero-rays{opacity:.45}
+  .v3hero:after{height:80px}
+}
+@media(max-width:500px){
+  .hero-logo{left:8%;top:6%;width:clamp(72px,24%,90px)}
+  .v3hero .hchar{width:88%}
+  .v3hero .hchar img{max-height:min(58vw,300px)}
+  .hero-rays{opacity:.35}
 }
 @media(prefers-reduced-motion:reduce){
-  .hero-fog .fog,.hero-rim{animation:none}
+  .hero-fog .fog,.hero-rim,.hero-aura,.hero-rays,.hero-logo-sheen{animation:none}
   .hero-stage,.hero-layer,.v3hero .hl,.v3hero .hchar,.hero-logo{transform:none!important}
 }
 

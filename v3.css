@@ -122,18 +122,20 @@ iframe.emb, .video-frame{width:100%;aspect-ratio:16/9;border:0;border-radius:6px
 .v3hero .hl h1{font-size:clamp(40px,5.4vw,80px);margin:10px 0 16px;text-shadow:0 10px 40px #000a,0 0 40px #05070ccc;max-width:16ch}
 .v3hero .lede{max-width:500px;position:relative}
 .hstage-right{position:relative;z-index:2;display:block;min-height:0;overflow:visible;align-self:start}
-.hero-aura{position:absolute;z-index:0;right:-4%;top:2%;width:86%;height:96%;
-  background:radial-gradient(ellipse at 62% 38%,rgba(232,197,106,.38) 0%,transparent 56%),
-    radial-gradient(ellipse at 72% 48%,rgba(102,192,244,.42) 0%,transparent 62%);
+.hero-aura{position:absolute;z-index:0;right:-8%;top:-6%;width:100%;height:120%;
+  background:radial-gradient(ellipse 52% 48% at 62% 38%,rgba(232,197,106,.38) 0%,transparent 100%),
+    radial-gradient(ellipse 58% 54% at 72% 48%,rgba(102,192,244,.42) 0%,transparent 100%);
   filter:blur(42px);mix-blend-mode:screen;pointer-events:none;
+  -webkit-mask-image:radial-gradient(ellipse 68% 64% at 62% 42%,#000 0%,#000 38%,transparent 76%);
+  mask-image:radial-gradient(ellipse 68% 64% at 62% 42%,#000 0%,#000 38%,transparent 76%);
   animation:aurapulse 7s ease-in-out infinite}
 @keyframes aurapulse{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.06)}}
 .hero-rays{position:absolute;z-index:0;right:-18%;top:-28%;width:120%;height:160%;
   background:repeating-conic-gradient(from 8deg at 62% 38%,
     transparent 0 7deg,rgba(232,197,106,.08) 8deg,transparent 11deg,
     rgba(102,192,244,.07) 12deg,transparent 15deg);
-  -webkit-mask-image:radial-gradient(ellipse at 62% 38%,#000 0%,transparent 62%);
-  mask-image:radial-gradient(ellipse at 62% 38%,#000 0%,transparent 62%);
+  -webkit-mask-image:radial-gradient(ellipse 55% 52% at 62% 38%,#000 0%,#000 28%,transparent 68%);
+  mask-image:radial-gradient(ellipse 55% 52% at 62% 38%,#000 0%,#000 28%,transparent 68%);
   mix-blend-mode:screen;opacity:.8;pointer-events:none;
   animation:rayspin 56s linear infinite;transform-origin:62% 38%}
 @keyframes rayspin{to{transform:rotate(360deg)}}
@@ -158,9 +160,11 @@ iframe.emb, .video-frame{width:100%;aspect-ratio:16/9;border:0;border-radius:6px
   filter:drop-shadow(0 0 28px #66c0f455) drop-shadow(18px 0 40px #e8c56a33) drop-shadow(0 28px 48px #000c);
   -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 74%,rgba(0,0,0,.7) 86%,transparent 100%);
   mask-image:linear-gradient(to bottom,#000 0%,#000 74%,rgba(0,0,0,.7) 86%,transparent 100%)}
-.hero-rim{position:absolute;right:6%;top:8%;width:70%;height:78%;z-index:1;
-  background:radial-gradient(ellipse at 70% 38%,#e8c56a55 0%,#66c0f466 36%,transparent 70%);
+.hero-rim{position:absolute;right:2%;top:2%;width:84%;height:92%;z-index:1;
+  background:radial-gradient(ellipse 48% 46% at 70% 38%,#e8c56a55 0%,#66c0f466 42%,transparent 100%);
   filter:blur(26px);opacity:.85;mix-blend-mode:screen;pointer-events:none;
+  -webkit-mask-image:radial-gradient(ellipse 70% 66% at 70% 40%,#000 0%,#000 40%,transparent 78%);
+  mask-image:radial-gradient(ellipse 70% 66% at 70% 40%,#000 0%,#000 40%,transparent 78%);
   animation:rimpulse 5.5s ease-in-out infinite}
 @keyframes rimpulse{0%,100%{opacity:.55;transform:scale(1)}50%{opacity:.95;transform:scale(1.06)}}
 @media(max-width:800px){
@@ -232,3 +236,16 @@ iframe.emb, .video-frame{width:100%;aspect-ratio:16/9;border:0;border-radius:6px
 .picimg{display:block;width:100%;height:100%;object-fit:cover}
 .cimg picture,.gal picture{display:block;width:100%;height:100%}
 .gal picture img,.gal img{width:100%;height:auto;border-radius:6px;margin:26px 0 8px}
+
+/* video click-to-load facades */
+.vfacade{position:relative;display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:6px;margin:16px 0;padding:0;background:#000;cursor:pointer;overflow:hidden;color:#fff}
+.vfacade-poster{width:100%;height:100%;object-fit:cover;display:block;opacity:.85}
+.vfacade-play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:68px;height:68px;border-radius:50%;background:#66c0f4ee;box-shadow:0 8px 30px #000a}
+.vfacade-play:after{content:"";position:absolute;left:26px;top:20px;border:14px solid transparent;border-left:22px solid #0a0c10}
+.vfacade-label{position:absolute;left:14px;bottom:12px;font:600 12px var(--mono);color:#fff;text-shadow:0 1px 6px #000}
+.vfacade:hover .vfacade-play{background:#fff}
+.video-frame{width:100%;aspect-ratio:16/9;margin:16px 0;border-radius:6px;overflow:hidden;background:#000}
+.video-frame iframe.emb{width:100%;height:100%;margin:0;border:0}
+.era-vk{margin:8px 0 18px;padding:18px 20px;border:1px solid var(--line);border-radius:8px;background:var(--card)}
+.era-vk h2{margin:6px 0 8px;font-size:clamp(24px,3vw,36px)}
+.era-vk .lede{margin:0 0 8px}

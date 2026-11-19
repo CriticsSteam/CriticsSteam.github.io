@@ -6,14 +6,19 @@ document.querySelectorAll('.rnd').forEach(b=>b.addEventListener('click',()=>{con
 // archive filter
 const ag=document.getElementById('ag');
 if(ag){let f='all',y='all',src='all';const q=document.getElementById('q'),c=document.getElementById('cnt');
+ const era=document.getElementById('vkEra');
+ const applySrc=(s,push)=>{src=s||'all';document.querySelectorAll('.chip[data-s]').forEach(x=>x.classList.toggle('on',x.dataset.s===src));if(era)era.hidden=src!=='vk';if(push){const u=new URL(location.href);if(src==='all')u.searchParams.delete('src');else u.searchParams.set('src',src);history.replaceState(null,'',u);}run();};
  const run=()=>{const s=(q?q.value:'').toLowerCase().trim();let n=0;ag.querySelectorAll('.card').forEach(el=>{
   const rs=(el.dataset.r||'').split(/\s+/);
   const ok=(f=='all'||rs.includes(f))&&(y=='all'||el.dataset.y==y)&&(src=='all'||el.dataset.s==src)&&(!s||el.textContent.toLowerCase().includes(s));
   el.style.display=ok?'':'none';if(ok)n++});if(c)c.textContent='Найдено: '+n};
  document.querySelectorAll('.chip[data-f]').forEach(b=>b.onclick=()=>{document.querySelectorAll('.chip[data-f]').forEach(x=>x.classList.remove('on'));b.classList.add('on');f=b.dataset.f;run()});
  document.querySelectorAll('.chip[data-y]').forEach(b=>b.onclick=()=>{document.querySelectorAll('.chip[data-y]').forEach(x=>x.classList.remove('on'));b.classList.add('on');y=b.dataset.y;run()});
- document.querySelectorAll('.chip[data-s]').forEach(b=>b.onclick=()=>{document.querySelectorAll('.chip[data-s]').forEach(x=>x.classList.remove('on'));b.classList.add('on');src=b.dataset.s;run()});
- const u=new URLSearchParams(location.search).get('q');if(u&&q)q.value=u;if(q)q.oninput=run;run();}
+ document.querySelectorAll('.chip[data-s]').forEach(b=>b.onclick=()=>applySrc(b.dataset.s,true));
+ const params=new URLSearchParams(location.search);
+ const u=params.get('q');if(u&&q)q.value=u;if(q)q.oninput=run;
+ const srcParam=params.get('src')||(location.hash==='#vk'?'vk':'');
+ if(srcParam==='vk'||srcParam==='tg')applySrc(srcParam,false);else run();}
 // free filter
 const fl=document.getElementById('fl');
 if(fl){let y='all';const q=document.getElementById('fq');const run=()=>{const s=q.value.toLowerCase();fl.querySelectorAll('.fg').forEach(el=>{el.style.display=((y=='all'||el.dataset.y==y)&&el.textContent.toLowerCase().includes(s))?'':'none'})};
@@ -192,4 +197,38 @@ document.querySelectorAll('[data-card]').forEach(b=>b.addEventListener('click',a
   document.addEventListener('click',e=>{
     drops.forEach(d=>{if(!d.contains(e.target)) {d.classList.remove('open'); const b=d.querySelector('.nav-drop-btn'); if(b)b.setAttribute('aria-expanded','false')}});
   });
+
+// click-to-load video embeds (YouTube / VK / Telegram), no autoload
+document.querySelectorAll('.vfacade').forEach(el=>{
+  el.addEventListener('click',()=>{
+    const kind=el.dataset.vkind, src=el.dataset.vsrc;
+    const wrap=document.createElement('div');
+    wrap.className='video-frame';
+    if(kind==='yt'||kind==='vk'){
+      const ifr=document.createElement('iframe');
+      ifr.className='emb';
+      ifr.src=src;
+      ifr.allow='accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;fullscreen';
+      ifr.allowFullscreen=true;
+      ifr.setAttribute('loading','lazy');
+      ifr.referrerPolicy='strict-origin-when-cross-origin';
+      wrap.appendChild(ifr);
+      el.replaceWith(wrap);
+      return;
+    }
+    if(kind==='tg'){
+      const s=document.createElement('script');
+      s.async=true;
+      s.src='https://telegram.org/js/telegram-widget.js?22';
+      s.setAttribute('data-telegram-post',src);
+      s.setAttribute('data-width','100%');
+      wrap.appendChild(s);
+      const a=document.createElement('a');
+      a.href='https://t.me/'+src; a.target='_blank'; a.rel='noopener';
+      a.className='ghost sm'; a.textContent='Открыть в Telegram →';
+      wrap.appendChild(a);
+      el.replaceWith(wrap);
+    }
+  });
+});
 })();

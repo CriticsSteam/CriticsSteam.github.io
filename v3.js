@@ -81,8 +81,9 @@ document.querySelectorAll('[data-card]').forEach(b=>b.addEventListener('click',a
   requestAnimationFrame(tick);
 
   const cv=document.getElementById('heroParts');
-  if(!cv || reduce) return;
+  if(!cv) return;
   const ctx=cv.getContext('2d');
+  const scv=document.getElementById('heroStars'); const S=scv?scv.getContext('2d'):ctx;
   const dots=[];
   function resize(){
     const r=stage.getBoundingClientRect();
@@ -90,6 +91,7 @@ document.querySelectorAll('[data-card]').forEach(b=>b.addEventListener('click',a
     cv.width=Math.floor(r.width*dpr); cv.height=Math.floor(r.height*dpr);
     cv.style.width=r.width+'px'; cv.style.height=r.height+'px';
     ctx.setTransform(dpr,0,0,dpr,0,0);
+    if(scv){scv.width=cv.width;scv.height=cv.height;scv.style.width=r.width+'px';scv.style.height=r.height+'px';S.setTransform(dpr,0,0,dpr,0,0);}
   }
   function spawn(){
     const r=stage.getBoundingClientRect();
@@ -97,6 +99,13 @@ document.querySelectorAll('[data-card]').forEach(b=>b.addEventListener('click',a
     dots.length=0;
     const nBlue=narrow?12:20;
     const nEmber=narrow?10:16;
+    const nStar=narrow?45:90;
+    for(let i=0;i<nStar;i++){
+      const big=Math.random()<0.14;
+      dots.push({kind:'star',x:Math.random()*r.width,y:Math.random()*r.height*0.92,
+        r:big?(1.1+Math.random()*0.9):(0.45+Math.random()*0.75),a:big?(0.65+Math.random()*0.3):(0.3+Math.random()*0.45),
+        big:big,tw:0.6+Math.random()*1.8,ph:Math.random()*Math.PI*2,c:Math.random()<0.3?'190,225,255':'255,255,255'});
+    }
     for(let i=0;i<nBlue;i++){
       dots.push({
         kind:'blue',
@@ -127,11 +136,23 @@ document.querySelectorAll('[data-card]').forEach(b=>b.addEventListener('click',a
   function draw(ts){
     const r=stage.getBoundingClientRect();
     if(!r.width){requestAnimationFrame(draw);return;}
-    ctx.clearRect(0,0,r.width,r.height);
+    ctx.clearRect(0,0,r.width,r.height); if(scv) S.clearRect(0,0,r.width,r.height);
     const t=(ts||0)/1000;
     for(const d of dots){
-      d.x+=d.vx+Math.sin((t+d.ph)*d.w)*0.16;
-      d.y+=d.vy;
+      if(d.kind==='star'){
+        const al=reduce?d.a:d.a*(0.55+0.45*Math.sin(t*d.tw+d.ph));
+        S.fillStyle='rgba('+d.c+','+al.toFixed(3)+')';
+        S.beginPath();S.arc(d.x,d.y,d.r,0,Math.PI*2);S.fill();
+        if(d.big){
+          const L=d.r*5;S.strokeStyle='rgba('+d.c+','+(al*0.45).toFixed(3)+')';S.lineWidth=0.6;
+          S.beginPath();S.moveTo(d.x-L,d.y);S.lineTo(d.x+L,d.y);S.moveTo(d.x,d.y-L);S.lineTo(d.x,d.y+L);S.stroke();
+          const g=S.createRadialGradient(d.x,d.y,0,d.x,d.y,d.r*4);g.addColorStop(0,'rgba('+d.c+','+(al*0.35).toFixed(3)+')');g.addColorStop(1,'rgba('+d.c+',0)');
+          S.fillStyle=g;S.beginPath();S.arc(d.x,d.y,d.r*4,0,Math.PI*2);S.fill();
+        }
+        continue;
+      }
+      if(!reduce){d.x+=d.vx+Math.sin((t+d.ph)*d.w)*0.16;
+      d.y+=d.vy;}
       if(d.y<-10){d.y=r.height+8;d.x=(d.kind==='ember'?r.width*0.42:0)+Math.random()*(d.kind==='ember'?r.width*0.58:r.width)}
       if(d.x<-8)d.x=r.width+8;
       if(d.x>r.width+8)d.x=-8;
@@ -149,10 +170,10 @@ document.querySelectorAll('[data-card]').forEach(b=>b.addEventListener('click',a
         ctx.fill();
       }
     }
-    requestAnimationFrame(draw);
+    if(!reduce) requestAnimationFrame(draw);
   }
   resize(); spawn();
-  window.addEventListener('resize',()=>{resize();spawn()});
+  window.addEventListener('resize',()=>{resize();spawn();if(reduce)requestAnimationFrame(draw)});
   requestAnimationFrame(draw);
 })();
 

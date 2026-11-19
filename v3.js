@@ -99,13 +99,6 @@ document.querySelectorAll('[data-card]').forEach(b=>b.addEventListener('click',a
     dots.length=0;
     const nBlue=narrow?12:20;
     const nEmber=narrow?10:16;
-    const nStar=narrow?45:90;
-    for(let i=0;i<nStar;i++){
-      const big=Math.random()<0.14;
-      dots.push({kind:'star',x:Math.random()*r.width,y:Math.random()*r.height*0.92,
-        r:big?(1.1+Math.random()*0.9):(0.45+Math.random()*0.75),a:big?(0.65+Math.random()*0.3):(0.3+Math.random()*0.45),
-        big:big,tw:0.6+Math.random()*1.8,ph:Math.random()*Math.PI*2,c:Math.random()<0.3?'190,225,255':'255,255,255'});
-    }
     for(let i=0;i<nBlue;i++){
       dots.push({
         kind:'blue',
